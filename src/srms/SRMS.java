@@ -18,7 +18,8 @@ public class SRMS {
         
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Login().setVisible(true);
+                new Login().setVisible(true);//
+                new StudentLoggedIn().setVisible(true);
             }
         });
     }
