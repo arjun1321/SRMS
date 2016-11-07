@@ -20,7 +20,8 @@ public class SRMS {
             public void run() {
                 new Login().setVisible(true);//
 //                new StudentLoggedIn().setVisible(true);
-                new TeacherLoggedIn().setVisible(true);
+//                new TeacherLoggedIn().setVisible(true);
+                new AdminLoggedIn().setVisible(true);
             }
         });
     }
