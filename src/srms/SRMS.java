@@ -21,7 +21,8 @@ public class SRMS {
                 new Login().setVisible(true);//
 //                new StudentLoggedIn().setVisible(true);
 //                new TeacherLoggedIn().setVisible(true);
-                new AdminLoggedIn().setVisible(true);
+//                new AdminLoggedIn().setVisible(true);
+//                new DEOLoggedIn().setVisible(true);
             }
         });
     }
