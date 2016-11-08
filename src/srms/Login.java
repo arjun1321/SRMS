@@ -6,6 +6,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -145,13 +146,36 @@ public class Login extends javax.swing.JFrame {
                 Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
             }
             
-            String query = "select * from users;";
+            String query = "select usertype from users where username = '"+username+"' and password = '" +password+"'";
                     
         try {
             PreparedStatement checkStmt = con.prepareStatement(query);
             ResultSet result = checkStmt.executeQuery();
-            String query = "select * from users";
-//            System.out.println("Connected: " + usertype);
+            String usertype = null;
+            
+            while(result.next()) {
+                usertype = result.getString("usertype"); 
+            }
+         
+         
+            if(usertype.equals("student")) {
+                System.out.println("hellow hfsdsldslfhd");
+                StudentLoggedIn studentLoggedIn = new StudentLoggedIn();
+                studentLoggedIn.setVisible(true);
+                
+            } else if(usertype.equals("admin")) {
+                AdminLoggedIn adminLoggedIn = new AdminLoggedIn();
+                adminLoggedIn.setVisible(true);
+            } else if(usertype.equals("teacher")) {
+                TeacherLoggedIn teacherLoggedIn = new TeacherLoggedIn();
+                teacherLoggedIn.setVisible(true);
+            } else if(usertype.equals("deo")) {
+                DEOLoggedIn deoLoggedIn = new DEOLoggedIn();
+                deoLoggedIn.setVisible(true);
+            } else {
+                System.out.println("Error");
+            }
+            checkStmt.close();
         } catch (SQLException ex) {
             Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -160,8 +184,6 @@ public class Login extends javax.swing.JFrame {
             
             
             
-            
-            System.out.println(username +": " + password);
         
         try {
             con.close();
