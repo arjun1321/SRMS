@@ -146,7 +146,7 @@ public class Login extends javax.swing.JFrame {
                 Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
             }
             
-            String query = "select usertype from users where username = '"+username+"' and password = '" +password+"'";
+            String query = "select * from users where username = '"+username+"' and password = '" +password+"'";
                     
         try {
             PreparedStatement checkStmt = con.prepareStatement(query);
@@ -159,8 +159,7 @@ public class Login extends javax.swing.JFrame {
          
          
             if(usertype.equals("student")) {
-                System.out.println("hellow hfsdsldslfhd");
-                StudentLoggedIn studentLoggedIn = new StudentLoggedIn();
+                StudentLoggedIn studentLoggedIn = new StudentLoggedIn(username);
                 studentLoggedIn.setVisible(true);
                 
             } else if(usertype.equals("admin")) {
