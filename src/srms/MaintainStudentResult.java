@@ -134,6 +134,11 @@ public class MaintainStudentResult extends javax.swing.JFrame {
         jTextField11.setColumns(6);
 
         jButton2.setText("Add Result");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setText("Update Result");
 
@@ -339,6 +344,59 @@ public class MaintainStudentResult extends javax.swing.JFrame {
         jTextField10.setText("");
         jTextField11.setText("");
     }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        Result studentResult = new Result();
+        
+        studentResult.setStudentName(jTextField3.getText());
+        studentResult.setRollno(jTextField4.getText());
+        studentResult.setSem(Integer.valueOf(jTextField5.getText()));
+        studentResult.setSub1(Integer.valueOf(jTextField6.getText()));
+        studentResult.setSub2(Integer.valueOf(jTextField8.getText()));
+        studentResult.setSub3(Integer.valueOf(jTextField9.getText()));
+        studentResult.setSub4(Integer.valueOf(jTextField10.getText()));
+        studentResult.setSub5(Integer.valueOf(jTextField11.getText()));
+        
+        
+        
+        Connection con = null;
+        
+        
+            try {
+                Class.forName("com.mysql.jdbc.Driver");
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            String url = "jdbc:mysql://localhost:3306/srms";
+            try {
+                con = DriverManager.getConnection(url, "root", "");
+            } catch (SQLException ex) {
+                Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            String query = "insert into results (student_name, student_rollno, semester, sub1, sub2, sub3, sub4, sub5) "
+                    + "values (?, ?, ?, ?, ?, ?, ?, ?)";
+                    
+        try {
+            PreparedStatement checkStmt = con.prepareStatement(query);
+            
+            int col=1;
+            checkStmt.setString(col++, studentResult.getStudentName());
+            checkStmt.setString(col++, studentResult.getRollno());
+            checkStmt.setInt(col++, studentResult.getSem());
+            checkStmt.setInt(col++, studentResult.getSub1());
+            checkStmt.setInt(col++, studentResult.getSub2());
+            checkStmt.setInt(col++, studentResult.getSub3());
+            checkStmt.setInt(col++, studentResult.getSub4());
+            checkStmt.setInt(col++, studentResult.getSub5());
+            checkStmt.executeUpdate();
+            
+            checkStmt.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
