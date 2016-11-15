@@ -18,6 +18,7 @@ import java.util.logging.Logger;
  * @author Arjun Kumar
  */
 public class MaintainStudentResult extends javax.swing.JFrame {
+    private int resultId = -1;
 
     /**
      * Creates new form MaintainStudentResult
@@ -141,6 +142,11 @@ public class MaintainStudentResult extends javax.swing.JFrame {
         });
 
         jButton3.setText("Update Result");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jButton4.setText("Delete  Result");
 
@@ -303,6 +309,7 @@ public class MaintainStudentResult extends javax.swing.JFrame {
             
             
             while(result.next()) {
+                resultId = result.getInt("id");
                 studentResult.setStudentName(result.getString("student_name"));
                 studentResult.setRollno(result.getString("student_rollno"));
                 studentResult.setSem(result.getInt("semester"));
@@ -397,6 +404,61 @@ public class MaintainStudentResult extends javax.swing.JFrame {
             Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        Result studentResult = new Result();
+        
+        studentResult.setStudentName(jTextField3.getText());
+        studentResult.setRollno(jTextField4.getText());
+        studentResult.setSem(Integer.valueOf(jTextField5.getText()));
+        studentResult.setSub1(Integer.valueOf(jTextField6.getText()));
+        studentResult.setSub2(Integer.valueOf(jTextField8.getText()));
+        studentResult.setSub3(Integer.valueOf(jTextField9.getText()));
+        studentResult.setSub4(Integer.valueOf(jTextField10.getText()));
+        studentResult.setSub5(Integer.valueOf(jTextField11.getText()));
+        
+        
+        
+        Connection con = null;
+        
+        
+            try {
+                Class.forName("com.mysql.jdbc.Driver");
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            String url = "jdbc:mysql://localhost:3306/srms";
+            try {
+                con = DriverManager.getConnection(url, "root", "");
+            } catch (SQLException ex) {
+                Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            String query = "update results set student_name=?, student_rollno=?, semester=?, sub1=?, sub2=?, sub3=?, sub4=?, sub5=? "
+                    + "where id=" + resultId;
+            
+            
+                    
+        try {
+            PreparedStatement checkStmt = con.prepareStatement(query);
+            
+            int col=1;
+            checkStmt.setString(col++, studentResult.getStudentName());
+            checkStmt.setString(col++, studentResult.getRollno());
+            checkStmt.setInt(col++, studentResult.getSem());
+            checkStmt.setInt(col++, studentResult.getSub1());
+            checkStmt.setInt(col++, studentResult.getSub2());
+            checkStmt.setInt(col++, studentResult.getSub3());
+            checkStmt.setInt(col++, studentResult.getSub4());
+            checkStmt.setInt(col++, studentResult.getSub5());
+            checkStmt.executeUpdate();
+            
+            checkStmt.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
