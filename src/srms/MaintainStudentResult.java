@@ -5,6 +5,14 @@
  */
 package srms;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author Arjun Kumar
@@ -74,6 +82,11 @@ public class MaintainStudentResult extends javax.swing.JFrame {
         jTextField2.setColumns(6);
 
         jButton1.setText("View Result");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jLabel4.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jLabel4.setText("Student name: ");
@@ -127,6 +140,11 @@ public class MaintainStudentResult extends javax.swing.JFrame {
         jButton4.setText("Delete  Result");
 
         jButton5.setText("Clear");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -250,6 +268,77 @@ public class MaintainStudentResult extends javax.swing.JFrame {
     private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField3ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        Result studentResult = new Result();
+        String rollno = jTextField1.getText();
+        int sem = Integer.valueOf(jTextField2.getText());
+        
+        Connection con = null;
+        
+        
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+        }
+            
+            String url = "jdbc:mysql://localhost:3306/srms";
+            try {
+                con = DriverManager.getConnection(url, "root", "");
+            } catch (SQLException ex) {
+                Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            String query = "select * from results where student_rollno = '"+rollno+"' and semester="+sem;
+                    
+        try {
+            PreparedStatement checkStmt = con.prepareStatement(query);
+            ResultSet result = checkStmt.executeQuery();
+            
+            
+            while(result.next()) {
+                studentResult.setStudentName(result.getString("student_name"));
+                studentResult.setRollno(result.getString("student_rollno"));
+                studentResult.setSem(result.getInt("semester"));
+                
+                studentResult.setSub1(result.getInt("sub1"));
+                studentResult.setSub2(result.getInt("sub2"));
+                studentResult.setSub3(result.getInt("sub3"));
+                studentResult.setSub4(result.getInt("sub4"));
+                studentResult.setSub5(result.getInt("sub5"));
+                
+                System.out.println(studentResult.getSub1());
+            }
+            checkStmt.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        jTextField3.setText(studentResult.getStudentName());
+        jTextField4.setText(studentResult.getRollno());
+        jTextField5.setText(String.valueOf(studentResult.getSem()));
+        
+        jTextField6.setText(String.valueOf(studentResult.getSub1()));
+        jTextField8.setText(String.valueOf(studentResult.getSub2()));
+        jTextField9.setText(String.valueOf(studentResult.getSub3()));
+        jTextField10.setText(String.valueOf(studentResult.getSub4()));
+        jTextField11.setText(String.valueOf(studentResult.getSub5()));
+          
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        jTextField1.setText("");
+        jTextField2.setText("");
+        jTextField3.setText("");
+        jTextField4.setText("");
+        jTextField5.setText("");
+        jTextField6.setText("");
+        jTextField8.setText("");
+        jTextField9.setText("");
+        jTextField10.setText("");
+        jTextField11.setText("");
+    }//GEN-LAST:event_jButton5ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
