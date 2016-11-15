@@ -149,6 +149,11 @@ public class MaintainStudentResult extends javax.swing.JFrame {
         });
 
         jButton4.setText("Delete  Result");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         jButton5.setText("Clear");
         jButton5.addActionListener(new java.awt.event.ActionListener() {
@@ -459,6 +464,39 @@ public class MaintainStudentResult extends javax.swing.JFrame {
             Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        Connection con = null;
+        
+        
+            try {
+                Class.forName("com.mysql.jdbc.Driver");
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            String url = "jdbc:mysql://localhost:3306/srms";
+            try {
+                con = DriverManager.getConnection(url, "root", "");
+            } catch (SQLException ex) {
+                Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            String query = "delete from results "
+                    + "where id=" + resultId;
+            
+            
+                    
+        try {
+            PreparedStatement checkStmt = con.prepareStatement(query);
+            
+            checkStmt.executeUpdate();
+            
+            checkStmt.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton4ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
