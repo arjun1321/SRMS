@@ -163,7 +163,7 @@ public class Login extends javax.swing.JFrame {
                 studentLoggedIn.setVisible(true);
                 
             } else if(usertype.equals("admin")) {
-                AdminLoggedIn adminLoggedIn = new AdminLoggedIn();
+                AdminLoggedIn adminLoggedIn = new AdminLoggedIn(username);
                 adminLoggedIn.setVisible(true);
             } else if(usertype.equals("teacher")) {
                 TeacherLoggedIn teacherLoggedIn = new TeacherLoggedIn();

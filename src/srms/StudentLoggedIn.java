@@ -193,7 +193,7 @@ public class StudentLoggedIn extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        ViewResult viewResult = new ViewResult(rollno, studentName);
+        ViewResult viewResult = new ViewResult(rollno, studentName, branch);
         viewResult.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 

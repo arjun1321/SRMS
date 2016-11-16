@@ -1,15 +1,59 @@
 package srms;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+
+
 /**
  *
  * @author Arjun Kumar
  */
 public class AdminLoggedIn extends javax.swing.JFrame {
+    private String username = null;
+    private String adminName = null;
 
     /**
      * Creates new form AdminLoggedIn
      */
-    public AdminLoggedIn() {
+    public AdminLoggedIn(String username) {
+        this.username = username;
+        
+        Connection con = null;
+        
+        
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+        }
+            
+            String url = "jdbc:mysql://localhost:3306/srms";
+            try {
+                con = DriverManager.getConnection(url, "root", "");
+            } catch (SQLException ex) {
+                Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            String query = "select * from staff where username = '"+username+"'";
+                    
+        try {
+            PreparedStatement checkStmt = con.prepareStatement(query);
+            ResultSet result = checkStmt.executeQuery();
+            
+            while(result.next()) {
+                adminName = result.getString("name"); 
+                
+            }
+            checkStmt.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+        }
         initComponents();
     }
 
@@ -47,7 +91,7 @@ public class AdminLoggedIn extends javax.swing.JFrame {
         jLabel2.setText("Name :");
 
         jLabel3.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        jLabel3.setText("Admin name");
+        jLabel3.setText(adminName);
 
         jButton1.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jButton1.setText("View Personal Information");

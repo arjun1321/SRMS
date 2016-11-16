@@ -21,13 +21,16 @@ public class ViewResult extends javax.swing.JFrame {
     private String studentName = null;
     private String rollno = null;
     private Result studentResult = null;
+    private String branch = null;
 
+    Subjects subject;
     /**
      * Creates new form ViewResult
      */
-    public ViewResult(String rollno, String studentName) {
+    public ViewResult(String rollno, String studentName, String branch) {
         this.rollno = rollno;
         this.studentName = studentName;
+        this.branch = branch;
 
         initComponents();
     }
@@ -204,6 +207,7 @@ public class ViewResult extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         int sem = Integer.valueOf(jTextField1.getText());
         studentResult = new Result();
+        subject = new Subjects();
         
         Connection con = null;
         
@@ -221,9 +225,25 @@ public class ViewResult extends javax.swing.JFrame {
                 Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
             }
             
+            String query1 = "select * from subjects where branch = '"+branch+"' and sem="+sem;
             String query = "select * from results where student_rollno = '"+rollno+"' and semester="+sem;
                     
         try {
+            PreparedStatement subStmt = con.prepareStatement(query1);
+            ResultSet subResult = subStmt.executeQuery();
+            
+            while(subResult.next()) {
+                subject.setId(subResult.getInt("id"));
+                subject.setBranch(subResult.getString("branch"));
+                subject.setSem(subResult.getInt("sem"));
+                subject.setSub1(subResult.getString("sub1"));
+                subject.setSub2(subResult.getString("sub2"));
+                subject.setSub3(subResult.getString("sub3"));
+                subject.setSub4(subResult.getString("sub4"));
+                subject.setSub5(subResult.getString("sub5"));
+            }
+            
+  
             PreparedStatement checkStmt = con.prepareStatement(query);
             ResultSet result = checkStmt.executeQuery();
             
@@ -237,10 +257,17 @@ public class ViewResult extends javax.swing.JFrame {
                 
                 System.out.println(studentResult.getSub1());
             }
+            subStmt.close();
             checkStmt.close();
         } catch (SQLException ex) {
             Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
         }
+      
+        jLabel7.setText(subject.getSub1());
+        jLabel9.setText(subject.getSub2());
+        jLabel11.setText(subject.getSub3());
+        jLabel13.setText(subject.getSub4());
+        jLabel15.setText(subject.getSub5());
         
         jLabel8.setText(String.valueOf(studentResult.getSub1()));
         jLabel10.setText(String.valueOf(studentResult.getSub2()));
